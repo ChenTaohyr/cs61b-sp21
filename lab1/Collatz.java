@@ -1,10 +1,10 @@
 /** Class that prints the Collatz sequence starting from a given number.
- *  @author YOUR NAME HERE
+ *  @author ChenTao
  */
 public class Collatz {
 
     /** Buggy implementation of nextNumber! */
-    public static int nextNumber(int n) {
+    public static int wrongNextNumber(int n) {
         if (n  == 128) {
             return 1;
         } else if (n == 5) {
@@ -23,5 +23,16 @@ public class Collatz {
         }
         System.out.println();
     }
+
+    /**
+     *
+     * @param n
+     * @return the next number of the input number in Collatz sequence
+     */
+    public static int nextNumber(int n){
+        if (n%2 == 0) return n/2;
+        else return 3*n+1;
+    }
+
 }
 

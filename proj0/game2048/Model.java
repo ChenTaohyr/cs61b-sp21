@@ -113,6 +113,72 @@ public class Model extends Observable {
         // TODO: Modify this.board (and perhaps this.score) to account
         // for the tilt to the Side SIDE. If the board changed, set the
         // changed local variable to true.
+////---------转向棋盘使得tilt的方向朝北
+//        this.board.setViewingPerspective(Side.EAST);
+//
+////--------tilt实现
+//        boolean[][] isMerged= new boolean[this.size()][this.size()];
+//        for(int i = 0 ;i<this.size() ;i++){
+//            for(int j = 1; j<this.size() ;j++) {
+//                if(this.board.tile(j, i) == null)continue;
+//                int nonNullCount = j-1;
+//                while(nonNullCount>=0 && this.board.tile(nonNullCount, i) == null) nonNullCount -= 1;
+//                if(nonNullCount == -1) {
+//                    this.board.move(0,i,this.board.tile(j, i));
+//                    changed = true;
+//                }
+////--------------------------若处理的格子为空，跳过，若格子不为空，则找到它上面第一个不为空的元素，若全为空，则将此格子移动到第一个格子
+////--------------------------若找到的第一个不为空的格子对应的isMerged标识为false，则表示此格子可以合并，此时判断两个格子值是否相等，相等则合并并将isMerged标识改写，并增加分数
+//                else if(this.board.tile(j, i).value() == this.board.tile(nonNullCount, i).value() && !isMerged[nonNullCount][i]) {
+//                    this.board.move(nonNullCount, i, this.board.tile(j, i));
+//                    this.score += this.board.tile(nonNullCount, i).value();
+//                    changed = true;
+//                    isMerged[nonNullCount][i] = true;
+//                }
+////----------------若两个格子相邻且不相等or无法合并，则不变，若两个格子不相等，则将现在操作的格子移动到最后一个非null格子的下方
+//                else if (j==nonNullCount+1) continue;
+//                else {
+//                    this.board.move(nonNullCount+1, i, this.board.tile(j, i));
+//                    changed = true;
+//                }
+//            }
+//        }
+//        this.board.setViewingPerspective(Side.NORTH);
+
+//        --------转向棋盘使得tilt的方向朝北
+        this.board.setViewingPerspective(side);
+
+//--------tilt实现
+        boolean[][] isMerged= new boolean[this.size()][this.size()];
+        for(int i = 0 ;i<this.size() ;i++){
+            for(int j = this.size()-2; j>=0 ;j -- ) {
+                if(this.board.tile(i, j) == null)continue;
+                int nonNullCount = j+1;
+                while(nonNullCount>=0 && nonNullCount<4 && this.board.tile(i,nonNullCount) == null) nonNullCount += 1;
+                if(nonNullCount >this.size()-1) {
+                    this.board.move(i,this.size()-1,this.board.tile(i, j));
+                    changed = true;
+                }
+//--------------------------若处理的格子为空，跳过，若格子不为空，则找到它上面第一个不为空的元素，若全为空，则将此格子移动到第一个格子
+//--------------------------若找到的第一个不为空的格子对应的isMerged标识为false，则表示此格子可以合并，此时判断两个格子值是否相等，相等则合并并将isMerged标识改写，并增加分数
+                else if(this.board.tile(i, j).value() == this.board.tile(i, nonNullCount).value() && !isMerged[i][nonNullCount]) {
+                    this.board.move(i, nonNullCount, this.board.tile(i, j));
+                    this.score += this.board.tile(i, nonNullCount).value();
+                    changed = true;
+                    isMerged[i][nonNullCount] = true;
+                }
+//----------------若两个格子相邻且不相等or无法合并，则不变，若两个格子不相等，则将现在操作的格子移动到最后一个非null格子的下方
+                else if (j==nonNullCount-1) continue;
+                else {
+                    this.board.move(i, nonNullCount-1, this.board.tile(i, j));
+                    changed = true;
+                }
+            }
+        }
+        this.board.setViewingPerspective(Side.NORTH);
+
+
+
 
         checkGameOver();
         if (changed) {
@@ -138,6 +204,11 @@ public class Model extends Observable {
      * */
     public static boolean emptySpaceExists(Board b) {
         // TODO: Fill in this function.
+        for(int i=0; i< b.size(); i++){
+            for(int j =0 ;j<b.size() ;j++){
+                if(b.tile(i,j) == null)return true;
+            }
+        }
         return false;
     }
 
@@ -148,6 +219,13 @@ public class Model extends Observable {
      */
     public static boolean maxTileExists(Board b) {
         // TODO: Fill in this function.
+        for(int i=0; i<b.size(); i++){
+            for(int j =0 ;j<b.size() ;j++){
+                if(b.tile(i,j) == null) continue;
+                if(b.tile(i,j).value() == MAX_PIECE)return true;
+            }
+        }
+
         return false;
     }
 
@@ -159,8 +237,25 @@ public class Model extends Observable {
      */
     public static boolean atLeastOneMoveExists(Board b) {
         // TODO: Fill in this function.
-        return false;
-    }
+        if (emptySpaceExists(b)) return true;
+        for (int i = 0; i < b.size(); i++) {
+            for (int j = 0; j < b.size(); j++) {
+                try {
+                    if (b.tile(i, j).value() == b.tile(i, j + 1).value()) return true;
+                    if (b.tile(i, j).value() == b.tile(i + 1, j).value()) return true;
+                } catch (Exception ArrayIndexOutOfBoundsException) {
+                    continue;
+                }
+            }
+        }
+
+
+
+            return false;
+
+        }
+
+
 
 
     @Override

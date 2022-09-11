@@ -1,9 +1,5 @@
 package deque;
 
-import edu.princeton.cs.algs4.StdOut;
-import net.sf.saxon.functions.ConstantFunction;
-import net.sf.saxon.functions.Sort_1;
-
 public class ArrayDeque<T> {
     private Object[] array = new Object[8];
     private int resizeFactor = 2;

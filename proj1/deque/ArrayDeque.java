@@ -63,7 +63,7 @@ public class ArrayDeque<T> {
         if(size == 0)return null;
         if(headIndex == capacity - 1)headIndex -= capacity;
         headIndex += 1;
-        T returnItem = (T)array[tailIndex];
+        T returnItem = (T)array[headIndex];
         array[headIndex] = null;
         size -= 1;
         if(tailIndex == headIndex){
@@ -118,7 +118,6 @@ public class ArrayDeque<T> {
                 System.out.println(array[i +headIndex -capacity]);
             }
         }
-
 
     }
     public T get(int index){

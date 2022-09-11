@@ -1,6 +1,9 @@
 package deque;
 
+import java.util.Calendar;
+
 public class ArrayDeque<T> {
+
     private Object[] array = new Object[8];
     private int resizeFactor = 2;
     private double usageFactor = 0.25;
@@ -23,6 +26,9 @@ public class ArrayDeque<T> {
         if(headIndex == -1) {
             headIndex = 0;
             tailIndex = 0;
+            array[headIndex] = item;
+            size += 1;
+            return;
         }
         if(headIndex == 0)headIndex += capacity;
         headIndex -= 1;
@@ -36,6 +42,9 @@ public class ArrayDeque<T> {
         if(tailIndex == -1) {
             headIndex = 0;
             tailIndex = 0;
+            array[tailIndex] = item;
+            size += 1;
+            return;
         }
         if(tailIndex == capacity-1)tailIndex = tailIndex - capacity;
         tailIndex += 1;
@@ -45,10 +54,10 @@ public class ArrayDeque<T> {
     }
     public T removeLast(){
         if(size == 0)return null;
-        if(tailIndex == 0)tailIndex += capacity;
-        tailIndex -= 1;
         T returnItem = (T)array[tailIndex];
         array[tailIndex] = null;
+        if(tailIndex == 0)tailIndex += capacity;
+        tailIndex -= 1;
         size -= 1;
         if(tailIndex == headIndex){
             tailIndex = -1;
@@ -61,10 +70,10 @@ public class ArrayDeque<T> {
     }
     public T removeFirst(){
         if(size == 0)return null;
-        if(headIndex == capacity - 1)headIndex -= capacity;
-        headIndex += 1;
         T returnItem = (T)array[headIndex];
         array[headIndex] = null;
+        if(headIndex == capacity - 1)headIndex -= capacity;
+        headIndex += 1;
         size -= 1;
         if(tailIndex == headIndex){
             tailIndex = -1;
@@ -90,8 +99,10 @@ public class ArrayDeque<T> {
             Object[] tempArray = new Object[newCapacity];
             if(headIndex < tailIndex){
                 System.arraycopy(array,0,tempArray,0,capacity);
+
             }else {
                 System.arraycopy(array,headIndex,tempArray,newCapacity-capacity+headIndex,capacity-headIndex);
+                System.arraycopy(array,0,tempArray,0,tailIndex+1);
                 headIndex = newCapacity-capacity+headIndex;
             }
             array = tempArray;
@@ -101,8 +112,11 @@ public class ArrayDeque<T> {
             Object[] tempArray = new Object[newCapacity];
             if(headIndex < tailIndex){
                 System.arraycopy(array,headIndex,tempArray,0,size);
+                headIndex = 0;
+                tailIndex = size-1;
             }else {
-                System.arraycopy(array,headIndex,tempArray,newCapacity-size+headIndex-1,size-headIndex+1);
+                System.arraycopy(array,headIndex,tempArray,newCapacity-capacity+headIndex,capacity-headIndex);
+                System.arraycopy(array,0,tempArray,0,tailIndex+1);
                 headIndex = newCapacity-size+headIndex-1;
             }
             array = tempArray;

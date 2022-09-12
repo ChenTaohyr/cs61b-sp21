@@ -1,6 +1,8 @@
 package deque;
 
 
+import java.util.Iterator;
+
 public class LinkedListDeque<type> implements Deque<type>{
     public static void main(String[] args) {
         LinkedListDeque<Integer> test = new LinkedListDeque();
@@ -13,6 +15,10 @@ public class LinkedListDeque<type> implements Deque<type>{
         test.printDeque();
     }
 
+    @Override
+    public Iterator<type> iterator() {
+        return null;
+    }
 
 
     private static class Node<T>{

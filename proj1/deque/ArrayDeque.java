@@ -1,6 +1,8 @@
 package deque;
 
 
+import java.util.Iterator;
+
 public class ArrayDeque<T> implements Deque<T>{
 
     //private Object[] array = new Object[8];
@@ -148,4 +150,8 @@ public class ArrayDeque<T> implements Deque<T>{
         return index+headIndex <capacity ? (T)array[index+headIndex] :(T)array[index+headIndex-capacity];
     }
 
+    @Override
+    public Iterator<T> iterator() {
+        return null;
+    }
 }

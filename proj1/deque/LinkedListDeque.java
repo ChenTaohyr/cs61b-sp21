@@ -5,7 +5,7 @@ public class LinkedListDeque<type> {
 
 
 
-    static class Node<T>{
+    private static class Node<T>{
         Node<T> last;
         Node<T> next;
         T item;

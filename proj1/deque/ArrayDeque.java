@@ -1,6 +1,5 @@
 package deque;
 
-import java.util.Calendar;
 
 public class ArrayDeque<T> {
 
@@ -56,13 +55,15 @@ public class ArrayDeque<T> {
         if(size == 0)return null;
         T returnItem = (T)array[tailIndex];
         array[tailIndex] = null;
-        if(tailIndex == 0)tailIndex += capacity;
-        tailIndex -= 1;
-        size -= 1;
         if(tailIndex == headIndex){
             tailIndex = -1;
             headIndex = -1;
+        }else {
+            if (tailIndex == 0) tailIndex += capacity;
+            tailIndex -= 1;
         }
+        size -= 1;
+
         double usage = (double)size/capacity;
         if(usage < usageFactor)resize(false);
         return returnItem;
@@ -72,13 +73,16 @@ public class ArrayDeque<T> {
         if(size == 0)return null;
         T returnItem = (T)array[headIndex];
         array[headIndex] = null;
-        if(headIndex == capacity - 1)headIndex -= capacity;
-        headIndex += 1;
-        size -= 1;
         if(tailIndex == headIndex){
             tailIndex = -1;
             headIndex = -1;
+        }else {
+            if (headIndex == capacity - 1) headIndex -= capacity;
+            headIndex += 1;
         }
+        size -= 1;
+
+
         double usage = (double)size/capacity;
         if(usage < usageFactor)resize(false);
         return returnItem;

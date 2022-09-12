@@ -1,9 +1,10 @@
 package deque;
 
 
-public class ArrayDeque<T> {
+public class ArrayDeque<T> implements Deque<T>{
 
-    private Object[] array = new Object[8];
+    //private Object[] array = new Object[8];
+    private T[] array = (T[]) new Object[8];
     private int resizeFactor = 2;
     private double usageFactor = 0.25;
     private int size = 0;
@@ -15,11 +16,11 @@ public class ArrayDeque<T> {
     public ArrayDeque() {
     }
 
-
-    public boolean isEmpty(){
-        return size == 0;
-    }
-
+//    @Override
+//    public boolean isEmpty(){
+//        return size == 0;
+//    }
+    @Override
     public void addFirst(T item){
         if(size == capacity)resize(true);
         if(headIndex == -1) {
@@ -35,7 +36,7 @@ public class ArrayDeque<T> {
         size += 1;
     }
 
-
+    @Override
     public void addLast(T item){
         if(size == capacity)resize(true);
         if(tailIndex == -1) {
@@ -51,6 +52,7 @@ public class ArrayDeque<T> {
         size += 1;
 
     }
+    @Override
     public T removeLast(){
         if(size == 0)return null;
         T returnItem = (T)array[tailIndex];
@@ -69,6 +71,7 @@ public class ArrayDeque<T> {
         return returnItem;
 
     }
+    @Override
     public T removeFirst(){
         if(size == 0)return null;
         T returnItem = (T)array[headIndex];
@@ -88,6 +91,7 @@ public class ArrayDeque<T> {
         return returnItem;
 
     }
+    @Override
     public int size(){
         return size;
     }
@@ -100,7 +104,7 @@ public class ArrayDeque<T> {
     private void resize(boolean b) {
         if(b){
             int newCapacity = capacity * resizeFactor;
-            Object[] tempArray = new Object[newCapacity];
+            T[] tempArray = (T[]) new Object[newCapacity];
             if(headIndex < tailIndex){
                 System.arraycopy(array,0,tempArray,0,capacity);
 
@@ -113,7 +117,7 @@ public class ArrayDeque<T> {
             capacity = newCapacity;
         }else if(capacity > 8){
             int newCapacity = capacity / resizeFactor;
-            Object[] tempArray = new Object[newCapacity];
+            T[] tempArray = (T[])new Object[newCapacity];
             if(headIndex < tailIndex){
                 System.arraycopy(array,headIndex,tempArray,0,size);
                 headIndex = 0;
@@ -128,6 +132,7 @@ public class ArrayDeque<T> {
         }
 
     }
+    @Override
     public void printDeque(){
         for(int i = 0; i<size ;i++){
             if(i+headIndex<capacity) {
@@ -138,6 +143,7 @@ public class ArrayDeque<T> {
         }
 
     }
+    @Override
     public T get(int index){
         return index+headIndex <capacity ? (T)array[index+headIndex] :(T)array[index+headIndex-capacity];
     }

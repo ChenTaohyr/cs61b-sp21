@@ -15,7 +15,7 @@ public class LinkedListDeque<type> implements Deque<type>{
         test.printDeque();
     }
 
-    @Override
+
     public Iterator<type> iterator() {
         return null;
     }

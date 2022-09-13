@@ -12,6 +12,4 @@ public interface Deque<T> extends Iterable<T>{
     T removeLast();
     T get(int index);
 
-    @Override
-    Iterator<T> iterator();
 }

@@ -150,7 +150,7 @@ public class ArrayDeque<T> implements Deque<T>{
         return index+headIndex <capacity ? (T)array[index+headIndex] :(T)array[index+headIndex-capacity];
     }
 
-    @Override
+   
     public Iterator<T> iterator() {
         return null;
     }

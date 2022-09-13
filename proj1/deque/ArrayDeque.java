@@ -3,9 +3,10 @@ package deque;
 
 import java.util.Iterator;
 
-public class ArrayDeque<T> implements Deque<T>{
+public class ArrayDeque<T> implements Deque<T> {
 
     //private Object[] array = new Object[8];
+
     private T[] array = (T[]) new Object[8];
     private int resizeFactor = 2;
     private double usageFactor = 0.25;
@@ -23,9 +24,9 @@ public class ArrayDeque<T> implements Deque<T>{
 //        return size == 0;
 //    }
     @Override
-    public void addFirst(T item){
-        if(size == capacity)resize(true);
-        if(headIndex == -1) {
+    public void addFirst(T item) {
+        if (size == capacity)resize(true);
+        if (headIndex == -1) {
             headIndex = 0;
             tailIndex = 0;
             array[headIndex] = item;
@@ -48,7 +49,7 @@ public class ArrayDeque<T> implements Deque<T>{
             size += 1;
             return;
         }
-        if(tailIndex == capacity-1)tailIndex = tailIndex - capacity;
+        if(tailIndex == capacity - 1)tailIndex = tailIndex - capacity;
         tailIndex += 1;
         array[tailIndex] = item;
         size += 1;
@@ -62,7 +63,7 @@ public class ArrayDeque<T> implements Deque<T>{
         if(tailIndex == headIndex){
             tailIndex = -1;
             headIndex = -1;
-        }else {
+        } else {
             if (tailIndex == 0) tailIndex += capacity;
             tailIndex -= 1;
         }
@@ -75,7 +76,7 @@ public class ArrayDeque<T> implements Deque<T>{
     }
     @Override
     public T removeFirst(){
-        if(size == 0)return null;
+        if(size == 0) return null;
         T returnItem = (T)array[headIndex];
         array[headIndex] = null;
         if(tailIndex == headIndex){
@@ -127,7 +128,7 @@ public class ArrayDeque<T> implements Deque<T>{
             }else {
                 System.arraycopy(array,headIndex,tempArray,newCapacity-capacity+headIndex,capacity-headIndex);
                 System.arraycopy(array,0,tempArray,0,tailIndex+1);
-                headIndex = newCapacity-size+headIndex-1;
+                headIndex = newCapacity-capacity+headIndex;
             }
             array = tempArray;
             capacity = newCapacity;
@@ -150,7 +151,7 @@ public class ArrayDeque<T> implements Deque<T>{
         return index+headIndex <capacity ? (T)array[index+headIndex] :(T)array[index+headIndex-capacity];
     }
 
-   
+
     public Iterator<T> iterator() {
         return null;
     }
